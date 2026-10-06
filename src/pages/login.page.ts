@@ -15,9 +15,7 @@ class LoginPage extends BasePage {
     async readLoginData(): Promise<any> { return loginData; }
 
     async isInLoginPage(): Promise<boolean> { 
-        await this.btnloginSignUp.waitForDisplayed();
-        const isLogoDisplayed = await this.btnloginSignUp.isDisplayed();
-        return isLogoDisplayed;
+        return await this.isElementDisplayed(this.btnloginSignUp);
     }
 
     async login(contactNumber: string, otp: string) {

@@ -5,3 +5,8 @@ allure-report/
 *.log
 .DS_Store
 Thumbs.db
+
+features/editProfile.feature
+src/pages/editProfile.page.ts
+src/steps/editProfile.steps.ts
+src/selectors/editProfileSelectors.ts

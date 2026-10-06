@@ -23,7 +23,7 @@ export const SIGN_UP_SELECTORS = {
     RESEND_OTP_BUTTON: 'android=new UiSelector().resourceId("Resend OTP")',
 
     //HOME PAGE
-    MY_PROFILE_ICON: 'android=new UiSelector().description("My Profile")',
+    MY_PROFILE_ICON: 'android=new UiSelector().resourceId("My Profile")',
 
     //PROFILE PAGE
     SETTINGS: 'android=new UiSelector().description("Settings")',

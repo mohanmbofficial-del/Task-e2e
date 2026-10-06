@@ -34,7 +34,7 @@ Then('the profile settings page should be displayed', async function () {
 });
 
 When('the user updates the full name', async function () {
-    await editProfilePage.updateFullName('Bhagyesh', 'Makasare');
+    await editProfilePage.updateFullName('Bhgyesh', 'Mkhare');
 });
 
 Then('the updated full name should be displayed', async function () {
@@ -57,5 +57,14 @@ When('the user updates the email address', async function () {
 
 Then('the updated email address should be displayed', async function () {
     const isDisplayed = await editProfilePage.isEmailDisplayed();
+    await expect(isDisplayed).toBe(true);
+});
+
+When('the user come back to the profile page from edit profile page', async function () {
+    await editProfilePage.comeBackToProfilePage();
+});
+
+Then('the user should be on the profile page', async function () {
+    const isDisplayed = await editProfilePage.isProfilePageDisplayed();
     await expect(isDisplayed).toBe(true);
 });

@@ -4,7 +4,8 @@ import { SIGN_UP_SELECTORS } from "../selectors/signUpSelectors";
 
 class EditProfilePage extends BasePage {
     private get profileIcon() { return $(SIGN_UP_SELECTORS.MY_PROFILE_ICON); }
-    private get editImageBtn() { return $(EDIT_PROFILE_SELECTORS.EDIT_IMAGE_BTN); }
+    private get editImageBtnCamera() { return $(EDIT_PROFILE_SELECTORS.EDIT_IMAGE_BTN_BY_CAMERA); }
+    private get editImageBtnGallery() { return $(EDIT_PROFILE_SELECTORS.EDIT_IMAGE_BTN_BY_GALLERY); }   
     private get openGalleryBtn() { return $(EDIT_PROFILE_SELECTORS.OPEN_GALLERY_BTN); }
     private get takePhotoBtn() { return $(EDIT_PROFILE_SELECTORS.TAKE_PHOTO_BTN); }
     private get doneBtnGallery() { return $(EDIT_PROFILE_SELECTORS.DONE_BTN_GALLERY); }
@@ -26,22 +27,24 @@ class EditProfilePage extends BasePage {
     private get addressSaveBtn() { return $(EDIT_PROFILE_SELECTORS.ADDRESS_SAVE_BTN); }
     private get editEmail() { return $(EDIT_PROFILE_SELECTORS.EDIT_EMAIL); }
     private get emailUpdateBtn() { return $(EDIT_PROFILE_SELECTORS.EMAIL_UPDATE_BTN); }
+    private get backBtn() { return $(EDIT_PROFILE_SELECTORS.BACK_BTN); }
 
     async clickProfileIcon() {
-        await this.click(this.profileIcon);
+        try{ await this.click(this.profileIcon); }
+        catch(error) { console.log('Profile icon not found'); }
     }
 
     async isProfilePageDisplayed(): Promise<boolean> {
-        try {
-            await this.profileSetting.waitForDisplayed();
+        try { await this.profileSetting.waitForDisplayed();
             return await this.profileSetting.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
     }
 
-    async clickEditImageBtn() {
-        await this.click(this.editImageBtn);
+    async clickEditImageBtnCamera() {
+        await this.click(this.editImageBtnCamera);
+    }
+    async clickEditImageBtnGallery() {
+        await this.click(this.editImageBtnGallery);
     }
     async clickOpenGalleryBtn() {
         await this.click(this.openGalleryBtn);
@@ -63,35 +66,29 @@ class EditProfilePage extends BasePage {
     }
 
     async updateProfileImageUsingCamera() {
-        await this.clickEditImageBtn();
+        await this.clickEditImageBtnCamera();
         await this.clickCameraBtn();
         await this.clickTakePicture();
         await this.clickDoneBtnCamera();
     }
 
     async updateProfileImageFromGallery() {
-        await this.clickEditImageBtn();
+        await this.clickEditImageBtnGallery();
         await this.clickOpenGalleryBtn();
         await this.clickTakePhotoBtn();
         await this.clickDoneBtnGallery();
     }
 
     async isProfileImageDisplayed(): Promise<boolean> {
-        try {
-            await this.editImageBtn.waitForDisplayed();
-            return await this.editImageBtn.isDisplayed();
-        } catch {
-            return false;
-        }
+        try { await this.editImageBtnCamera.waitForDisplayed();
+            return await this.editImageBtnCamera.isDisplayed();
+        } catch { return false; }
     }
     
     async isProfileSettingDisplayed() {
-        try {
-            await this.profileSetting.waitForDisplayed();
+        try { await this.profileSetting.waitForDisplayed();
             return await this.profileSetting.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
     }
 
     async clickProfileSetting() {
@@ -99,12 +96,9 @@ class EditProfilePage extends BasePage {
     }
 
     async isProfileSettingsPageDisplayed(): Promise<boolean> {
-        try {
-            await this.fullNameField.waitForDisplayed();
+        try { await this.fullNameField.waitForDisplayed();
             return await this.fullNameField.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
     }
 
     async clickFullNameField() {
@@ -144,6 +138,7 @@ class EditProfilePage extends BasePage {
         await this.setFirstName(firstName);
         await this.clickLastName();
         await this.setLastName(lastName);
+        await this.closeKeyboard();
         await this.clickNameUpdateBtn();
     }
 
@@ -167,13 +162,16 @@ class EditProfilePage extends BasePage {
 
     async setCity(value: string) {
         await this.clearAndSetInput(this.city, value);
+        await this.closeKeyboard();
     }
+
     async clickPincode() {
         await this.click(this.pincode);
     }
 
     async setPincode(value: string) {
-        await this.clearAndSetInput(this.pincode, value);
+        await this.closeKeyboard();
+        await this.scrollAndEnterText(this.pincode, value);
     }
 
     async clickAddressSaveBtn() {
@@ -194,47 +192,51 @@ class EditProfilePage extends BasePage {
     }
 
     async isAddressDisplayed(): Promise<boolean> {
-        try {
-            await this.addressField.waitForDisplayed();
+        try { await this.addressField.waitForDisplayed();
             return await this.addressField.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
     }
 
     async verifyFullName(): Promise<boolean> {
-        try {
-            await this.fullNameField.waitForDisplayed();
+        try { await this.fullNameField.waitForDisplayed();
             return await this.fullNameField.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
     }
 
     async clickEditEmail() {
         await this.click(this.editEmail);
     }
+
     async setEmail(value: string) {
         await this.clearAndSetInput(this.editEmail, value);
     }
+
     async clickEmailUpdateBtn() {
         await this.click(this.emailUpdateBtn);
     }
 
+    async clickChangeEmail() {
+        await this.click(this.editEmail);
+    }
+
     async updateEmail(email: string) {
-        await this.clickEmailField();
-        await this.clickEditEmail();
+        await this.clickChangeEmail();
         await this.setEmail(email);
         await this.clickEmailUpdateBtn();
     }
 
     async isEmailDisplayed(): Promise<boolean> {
-        try {
-            await this.emailField.waitForDisplayed();
+        try { await this.emailField.waitForDisplayed();
             return await this.emailField.isDisplayed();
-        } catch {
-            return false;
-        }
+        } catch { return false; }
+    }
+
+    async clickBackBtn() {
+        await this.click(this.backBtn);
+    }
+
+    async comeBackToProfilePage() {
+        await this.clickBackBtn();
     }
 }
     
