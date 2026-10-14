@@ -1,6 +1,7 @@
 import { When, Then } from '@wdio/cucumber-framework';
 import { expect } from '@wdio/globals';
 import editProfilePage from '../pages/editProfile.page';
+import { editProfileData } from '../testData/editProfileData';
 
 When('the user accesses the profile page', async function () {
     await editProfilePage.clickProfileIcon();
@@ -34,7 +35,7 @@ Then('the profile settings page should be displayed', async function () {
 });
 
 When('the user updates the full name', async function () {
-    await editProfilePage.updateFullName('Bhgyesh', 'Mkhare');
+    await editProfilePage.updateFullName(editProfileData.firstName, editProfileData.lastName);
 });
 
 Then('the updated full name should be displayed', async function () {
@@ -43,7 +44,7 @@ Then('the updated full name should be displayed', async function () {
 });
 
 When('the user updates the address', async function () {
-    await editProfilePage.updateAddress('Street 1', 'Area 2', 'Pune', '411001');
+    await editProfilePage.updateAddress(editProfileData.addressLine1, editProfileData.addressLine2, editProfileData.city, editProfileData.pincode);
 });
 
 Then('the updated address should be displayed', async function () {
@@ -52,7 +53,7 @@ Then('the updated address should be displayed', async function () {
 });
 
 When('the user updates the email address', async function () {
-    await editProfilePage.updateEmail('tester@gmail.com');
+    await editProfilePage.updateEmail(editProfileData.email);
 });
 
 Then('the updated email address should be displayed', async function () {
